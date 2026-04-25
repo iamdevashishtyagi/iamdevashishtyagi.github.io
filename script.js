@@ -30,19 +30,23 @@ $(document).ready(function() {
         backDelay: 1500
     });
     
-    // ========== PROFILE PHOTO GALLERY ==========
+    // ========== PROFILE PHOTO GALLERY - INFINITE AUTO LOOP (NO ARROWS) ==========
     let currentSlide = 0;
     const slides = $('.gallery-img');
     const dots = $('.dot');
     const totalSlides = slides.length;
     
     function showSlide(index) {
-        // Loop index
-        if(index >= totalSlides) currentSlide = 0;
-        if(index < 0) currentSlide = totalSlides - 1;
-        else currentSlide = index;
+        // Proper infinite loop - wrap around to 0 when reaching end
+        if(index >= totalSlides) {
+            currentSlide = 0;
+        } else if(index < 0) {
+            currentSlide = totalSlides - 1;
+        } else {
+            currentSlide = index;
+        }
         
-        // Update images
+        // Update images - fade transition
         slides.removeClass('active');
         $(slides[currentSlide]).addClass('active');
         
@@ -51,40 +55,39 @@ $(document).ready(function() {
         $(dots[currentSlide]).addClass('active');
     }
     
-    // Next slide
-    $('.gallery-next').click(function() {
-        showSlide(currentSlide + 1);
-    });
-    
-    // Previous slide
-    $('.gallery-prev').click(function() {
-        showSlide(currentSlide - 1);
-    });
-    
-    // Dot navigation
-    dots.each(function(index) {
-        $(this).click(function() {
-            showSlide(index);
-        });
-    });
-    
-    // Auto-rotate slides every 5 seconds
+    // Auto-rotate slides every 4 seconds - INFINITE LOOP
     let slideInterval = setInterval(function() {
         showSlide(currentSlide + 1);
-    }, 5000);
+    }, 4000);
     
-    // Pause auto-rotate on hover
+    // Pause auto-rotate on hover (optional - gives user control)
     $('.profile-gallery').hover(
-        function() { clearInterval(slideInterval); },
+        function() { 
+            clearInterval(slideInterval); 
+        },
         function() { 
             slideInterval = setInterval(function() {
                 showSlide(currentSlide + 1);
-            }, 5000);
+            }, 4000);
         }
     );
     
-    // ========== DYNAMIC CV LINK (Update with your actual CV URL) ==========
-    // Replace this URL with your latest CV Google Drive link
+    // Also allow clicking on dots for manual navigation
+    dots.each(function(index) {
+        $(this).click(function() {
+            showSlide(index);
+            // Reset timer after manual click
+            clearInterval(slideInterval);
+            slideInterval = setInterval(function() {
+                showSlide(currentSlide + 1);
+            }, 4000);
+        });
+    });
+    
+    // ========== HIDE ARROW BUTTONS COMPLETELY ==========
+    $('.gallery-prev, .gallery-next').remove();
+    
+    // ========== DYNAMIC CV LINK ==========
     const cvUrl = "https://drive.google.com/file/d/1h-GnxUa8bEgEKS_x5eY4Q1A4ke2IvEW2/view";
     $("#cv-download-link").attr("href", cvUrl);
     
@@ -105,7 +108,7 @@ $(document).ready(function() {
         btn.html('Sending... <i class="fas fa-spinner fa-spin"></i>');
         btn.prop('disabled', true);
         
-        // Reset button after 3 seconds (actual submission handled by Web3Forms)
+        // Reset button after 3 seconds
         setTimeout(function() {
             btn.html('Send Message <i class="fa-solid fa-paper-plane"></i>');
             btn.prop('disabled', false);
@@ -128,10 +131,14 @@ $(document).ready(function() {
         const skillsSection = document.getElementById('skills');
         if(skillsSection && isInViewport(skillsSection)) {
             $('.bar span').each(function() {
-                const width = $(this).css('width');
-                if(width === '0px') {
-                    const targetWidth = $(this).attr('class').split('-')[1];
-                    $(this).css('width', targetWidth + '%');
+                const currentWidth = $(this).width();
+                if(currentWidth === 0) {
+                    const targetClass = $(this).attr('class');
+                    const match = targetClass.match(/p-(\d+)/);
+                    if(match) {
+                        const targetWidth = match[1];
+                        $(this).css('width', targetWidth + '%');
+                    }
                 }
             });
         }
@@ -143,33 +150,13 @@ $(document).ready(function() {
     setTimeout(animateSkillBars, 500);
     
     // ========== PROJECT LIVE LINKS FIX ==========
-    // Update notebook link when available
     $('.live-link-notebook').on('click', function(e) {
         e.preventDefault();
-        alert('Live link coming soon! The project is currently in development.');
+        alert('Live link coming soon! The project is currently being deployed.');
     });
     
-    // ========== ADD YEAR TO FOOTER (if you add a footer) ==========
-    const currentYear = new Date().getFullYear();
-    // Optional: Add copyright dynamically if needed
-    
-    // ========== PRELOADER / LOADING STATE ==========
-    $('body').css('opacity', '0');
-    $(window).on('load', function() {
-        $('body').animate({opacity: 1}, 500);
-    });
-    
-    // ========== KEYBOARD NAVIGATION ==========
-    $(document).on('keydown', function(e) {
-        // Left arrow for previous slide in gallery
-        if(e.keyCode === 37 && $('.profile-gallery:hover').length) {
-            showSlide(currentSlide - 1);
-        }
-        // Right arrow for next slide
-        if(e.keyCode === 39 && $('.profile-gallery:hover').length) {
-            showSlide(currentSlide + 1);
-        }
-    });
-    
-    console.log("Portfolio enhanced successfully! 🚀");
+    console.log("Portfolio enhanced successfully with infinite auto-rotating gallery! 🚀");
+    console.log("Total slides: " + totalSlides);
 });
+
+// REMOVED the problematic preloader code that was causing blank page on refresh
