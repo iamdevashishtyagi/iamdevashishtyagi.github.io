@@ -10,42 +10,16 @@
   --btn-background-color:rgb(74, 72, 72) ;
   --background-color: rgba(0, 0, 0, 0);
   --text-color: hsl(0, 0%, 100%);
-  /* The intrinsic width of the underline stroke (in pixels). This is 
-   * the same as the height of the cap images. Don't specify the
-   * units! This is because of some of the calculations we do later on. */
   --underline-intrinsic-width: 8;
-  
-  /* The actual width of the underline stroke we want to render (in pixels).
-   * You can modify this, and the sizing and positioning should be calculated
-   * accordingly. Again, Don't specify the units! */
   --underline-width: 12;
-  
-  /* The colour used to draw the underline. It should match the colour
-   * used in the cap images... unfortunately we can't modify the SVG
-   * fill via CSS because it's a background image. */
   --underline-color: #f1a1e3;
-  
-  /* We need to know the width of the cap images so that we
-   * can position everything on the x axis accordingly. */
   --underline-cap-width: 4px;
-  
-  /* The border is positioned relative to the bottom of the line.
-   * We can move it upwards a little to create an overlap effect. */
   --underline-offset-y: -2px;
-  
-  /* The padding to add to the x axis. By default, the caps would be
-   * aligned with the beginning and end of the line. */
   --underline-padding-x: 0.12em;
-  
-  /* The cap images to use that form the left and right rounded
-   * shape. I guess these could be any shape, they don't
-   * necessarily have to be round 🙂.
-   */
   --cap-image-left: url(https://files-d4s40otz1.now.sh/left.svg);
   --cap-image-right: url(https://files-4vvqilj8v.now.sh/right.svg);
 }
 
-/* google font  */
 .kalnia-glaze {
   font-family: "Kalnia Glaze", serif;
   font-optical-sizing: auto;
@@ -1084,4 +1058,248 @@ form>button:hover {
     font-size: 0.7rem;
 
 }
+}
+
+
+/* ========== NEW ADDITIONS FOR ENHANCED PORTFOLIO ========== */
+
+/* Profile Gallery Styles */
+.profile-gallery {
+    position: relative;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.gallery-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.gallery-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    border-radius: 50%;
+}
+
+.gallery-img.active {
+    opacity: 1;
+}
+
+.gallery-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 15px;
+}
+
+.gallery-prev, .gallery-next {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-prev:hover, .gallery-next:hover {
+    background: #10efff;
+    color: black;
+}
+
+.gallery-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: #10efff;
+    width: 20px;
+    border-radius: 10px;
+}
+
+/* Improved Responsive for Gallery */
+@media(max-width: 768px) {
+    .profile-gallery {
+        width: 120px;
+    }
+    .gallery-container {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Skill Bars Animation */
+.bar span {
+    display: block;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #10efff, #29f1dd);
+    animation: progressbar 1.5s ease-out;
+}
+
+/* Enhanced Project Card Hover */
+.my-projects {
+    transition: transform 0.3s ease;
+}
+
+.my-projects:hover {
+    transform: translateY(-5px);
+}
+
+/* Contact Form Improvements */
+.contact-btn {
+    color: black;
+    background: linear-gradient(135deg, #29f1dd, #10efff);
+    width: 90%;
+    height: 45px;
+    margin-left: 7%;
+    border: none;
+    border-radius: 7px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(16, 239, 255, 0.5);
+}
+
+/* Scrollbar Styling for Sections */
+.content > section::-webkit-scrollbar {
+    width: 5px;
+}
+
+.content > section::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.content > section::-webkit-scrollbar-thumb {
+    background: #10efff;
+    border-radius: 10px;
+}
+
+/* Loading Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section.show {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Tech Stack Tags */
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.tech-tag {
+    background: rgba(16, 239, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #10efff;
+    border: 1px solid rgba(16, 239, 255, 0.3);
+}
+
+/* Social Links Enhancement */
+.mb-4 li a {
+    transition: all 0.5s ease;
+}
+
+.mb-4 li a:hover {
+    transform: translateY(-3px);
+}
+
+/* CV Button Fix */
+.button-86 {
+    margin-left: 0 !important;
+    width: auto;
+    min-width: 100px;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 992px) {
+    #about, #skills, #projects, #contact {
+        padding: 20px;
+    }
+    
+    .my-projects {
+        margin: 20px 5px;
+    }
+    
+    .contact-div {
+        width: 100%;
+    }
+    
+    form {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .heading-font {
+        font-size: 1.5rem;
+    }
+    
+    .kalnia-glaze {
+        font-size: 1.2rem;
+    }
+    
+    .contact-btn {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .email-signature .signature-img {
+        width: 60%;
+    }
+}
+
+/* Print Styles for CV */
+@media print {
+    #main-nav, .gallery-nav, .contact-div {
+        display: none;
+    }
+    
+    .intro-div {
+        display: block !important;
+    }
+    
+    body {
+        background: white;
+    }
 }
