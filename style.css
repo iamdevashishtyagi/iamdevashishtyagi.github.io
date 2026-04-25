@@ -1303,3 +1303,49 @@ section.show {
         background: white;
     }
 }
+
+/* Gallery - No Arrows, Just Auto Rotate */
+.gallery-prev, .gallery-next {
+    display: none !important;
+}
+
+.gallery-nav {
+    justify-content: center;
+}
+
+.gallery-dots {
+    justify-content: center;
+}
+
+/* Smooth fade transition for images */
+.gallery-img {
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* Make dots more visible */
+.dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    width: 25px;
+    background: #10efff;
+}
+
+/* Center the CV Button */
+.button-86 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+
+.button-86 a {
+    display: inline-block;
+    text-align: center;
+}
